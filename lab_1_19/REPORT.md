@@ -93,7 +93,16 @@
 
 int main(void) {
     double a, b;
-    if (scanf("%lf %lf", &a, &b) != 2) {
+
+    printf("Введите катет A: ");
+    fflush(stdout);
+    if (scanf("%lf", &a) != 1) {
+        return 1;
+    }
+
+    printf("Введите катет B: ");
+    fflush(stdout);
+    if (scanf("%lf", &b) != 1) {
         return 1;
     }
 
@@ -103,7 +112,7 @@ int main(void) {
     double beta = atan2(b, a) * rad2deg;
     double chi = 90.0;
 
-    printf("%.6f %.6f %.6f %.6f\n", c, alpha, beta, chi);
+    printf("C = %.6f, углы (град): %.6f %.6f %.6f\n", c, alpha, beta, chi);
     return 0;
 }
 ```
@@ -111,11 +120,12 @@ int main(void) {
 **Ввод:**
 
 ```
-3 4
+3
+4
 ```
 
 **Вывод:**
 
 ```
-5.000000 36.869898 53.130102 90.000000
+Введите катет A: Введите катет B: C = 5.000000, углы (град): 36.869898 53.130102 90.000000
 ```

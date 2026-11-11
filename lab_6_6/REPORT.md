@@ -83,7 +83,7 @@
 **Условие.** Вывести на экран первые n простых чисел в диапазоне a до b.
 
 
-Простота проверяется перебором делителей до √x. Цикл по диапазону [a, b] накапливает ровно n первых простых чисел и печатает их в одной строке.
+Перед вводом a, b и n выводятся текстовые подсказки. Простота проверяется перебором делителей до √x; в диапазоне [a, b] находят n первых простых и печатают их в одной строке.
 
 **Код (`task_01.c`):**
 
@@ -110,7 +110,22 @@ static int is_prime(int x) {
 
 int main(void) {
     int a, b, n;
-    if (scanf("%d %d %d", &a, &b, &n) != 3 || n < 1 || a > b) {
+
+    printf("Введите нижнюю границу диапазона a: ");
+    fflush(stdout);
+    if (scanf("%d", &a) != 1) {
+        return 1;
+    }
+
+    printf("Введите верхнюю границу диапазона b: ");
+    fflush(stdout);
+    if (scanf("%d", &b) != 1) {
+        return 1;
+    }
+
+    printf("Введите количество простых чисел n: ");
+    fflush(stdout);
+    if (scanf("%d", &n) != 1 || n < 1 || a > b) {
         return 1;
     }
 
@@ -125,20 +140,22 @@ int main(void) {
         }
     }
     printf("\n");
-    return found == n ? 0 : 0;
+    return 0;
 }
 ```
 
 **Ввод:**
 
 ```
-10 50 5
+10
+50
+5
 ```
 
 **Вывод:**
 
 ```
-11 13 17 19 23
+Введите нижнюю границу диапазона a: Введите верхнюю границу диапазона b: Введите количество простых чисел n: 11 13 17 19 23
 ```
 
 
@@ -153,6 +170,8 @@ int main(void) {
 
 ```c
 #include <stdio.h>
+
+#define MAX_VALUES 10000
 
 static int is_palindrome(int x) {
     if (x < 0) {
@@ -172,25 +191,41 @@ static int is_palindrome(int x) {
 
 int main(void) {
     int need;
+
+    printf("Введите количество палиндромов n: ");
+    fflush(stdout);
     if (scanf("%d", &need) != 1 || need < 1) {
         return 1;
     }
 
+    int values[MAX_VALUES];
+    int count = 0;
     int pal_count = 0;
-    int value;
-    int first = 1;
-    while (pal_count < need && scanf("%d", &value) == 1) {
-        if (!first) {
-            printf(" ");
+
+    while (pal_count < need) {
+        printf("Введите целое число: ");
+        fflush(stdout);
+        int value;
+        if (scanf("%d", &value) != 1) {
+            return 1;
         }
-        printf("%o", value);
-        first = 0;
+        if (count < MAX_VALUES) {
+            values[count++] = value;
+        }
         if (is_palindrome(value)) {
             ++pal_count;
         }
     }
+
+    printf("В восьмеричной системе счисления: ");
+    for (int i = 0; i < count; ++i) {
+        if (i > 0) {
+            printf(" ");
+        }
+        printf("%o", values[i]);
+    }
     printf("\n");
-    return pal_count == need ? 0 : 1;
+    return 0;
 }
 ```
 
@@ -198,13 +233,15 @@ int main(void) {
 
 ```
 2
-10 121 7
+10
+121
+7
 ```
 
 **Вывод:**
 
 ```
-12 171 7
+Введите количество палиндромов n: Введите целое число: Введите целое число: Введите целое число: В восьмеричной системе счисления: 12 171 7
 ```
 
 
@@ -240,6 +277,9 @@ static int is_palindrome(int x) {
 
 int main(void) {
     int n;
+
+    printf("Введите n (100 <= n <= 1000): ");
+    fflush(stdout);
     if (scanf("%d", &n) != 1 || n < 100 || n > 1000) {
         return 1;
     }
@@ -253,7 +293,7 @@ int main(void) {
         }
     }
 
-    printf("%.6f\n", sqrt((double)sum));
+    printf("Корень из суммы: %.6f\n", sqrt((double)sum));
     return 0;
 }
 ```
@@ -267,7 +307,7 @@ int main(void) {
 **Вывод:**
 
 ```
-205.737697
+Введите n (100 <= n <= 1000): Корень из суммы: 205.737697
 ```
 
 
@@ -305,7 +345,16 @@ static double series_sinh(double x, int n) {
 int main(void) {
     int n;
     double h;
-    if (scanf("%d %lf", &n, &h) != 2 || n < 1 || h <= 0.0) {
+
+    printf("Введите количество слагаемых n: ");
+    fflush(stdout);
+    if (scanf("%d", &n) != 1 || n < 1) {
+        return 1;
+    }
+
+    printf("Введите шаг h: ");
+    fflush(stdout);
+    if (scanf("%lf", &h) != 1 || h <= 0.0) {
         return 1;
     }
 
@@ -326,13 +375,14 @@ int main(void) {
 **Ввод:**
 
 ```
-6 0.25
+6
+0.25
 ```
 
 **Вывод:**
 
 ```
-x	S(x)		Y(x)
+Введите количество слагаемых n: Введите шаг h: x	S(x)		Y(x)
 0.0000	0.000000	0.000000
 0.2500	0.252612	0.252612
 0.5000	0.521095	0.521095
@@ -368,11 +418,20 @@ static double compute_y(double x, int n) {
 int main(void) {
     int n;
     double x;
-    if (scanf("%d %lf", &n, &x) != 2 || n < 1 || fabs(x) >= 1.0) {
+
+    printf("Введите натуральное n: ");
+    fflush(stdout);
+    if (scanf("%d", &n) != 1 || n < 1) {
         return 1;
     }
 
-    printf("%.6f\n", compute_y(x, n));
+    printf("Введите x (|x| < 1): ");
+    fflush(stdout);
+    if (scanf("%lf", &x) != 1 || fabs(x) >= 1.0) {
+        return 1;
+    }
+
+    printf("y = %.6f\n", compute_y(x, n));
     return 0;
 }
 ```
@@ -380,11 +439,12 @@ int main(void) {
 **Ввод:**
 
 ```
-4 0.5
+4
+0.5
 ```
 
 **Вывод:**
 
 ```
--0.111491
+Введите натуральное n: Введите x (|x| < 1): y = -0.111491
 ```
