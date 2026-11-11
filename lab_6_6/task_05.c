@@ -15,10 +15,19 @@ static double compute_y(double x, int n) {
 int main(void) {
     int n;
     double x;
-    if (scanf("%d %lf", &n, &x) != 2 || n < 1 || fabs(x) >= 1.0) {
+
+    printf("Введите натуральное n: ");
+    fflush(stdout);
+    if (scanf("%d", &n) != 1 || n < 1) {
         return 1;
     }
 
-    printf("%.6f\n", compute_y(x, n));
+    printf("Введите x (|x| < 1): ");
+    fflush(stdout);
+    if (scanf("%lf", &x) != 1 || fabs(x) >= 1.0) {
+        return 1;
+    }
+
+    printf("y = %.6f\n", compute_y(x, n));
     return 0;
 }
