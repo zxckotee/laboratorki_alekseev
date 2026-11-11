@@ -22,7 +22,16 @@ static double series_sinh(double x, int n) {
 int main(void) {
     int n;
     double h;
-    if (scanf("%d %lf", &n, &h) != 2 || n < 1 || h <= 0.0) {
+
+    printf("Введите количество слагаемых n: ");
+    fflush(stdout);
+    if (scanf("%d", &n) != 1 || n < 1) {
+        return 1;
+    }
+
+    printf("Введите шаг h: ");
+    fflush(stdout);
+    if (scanf("%lf", &h) != 1 || h <= 0.0) {
         return 1;
     }
 

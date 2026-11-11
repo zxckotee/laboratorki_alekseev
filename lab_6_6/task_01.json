@@ -2,8 +2,8 @@
   "task_number": 1,
   "condition": "Вывести на экран первые n простых чисел в диапазоне a до b.",
   "source": "task_01.c",
-  "stdin": "10 50 5\n",
-  "expected_stdout": "11 13 17 19 23\n",
+  "stdin": "10\n50\n5\n",
+  "expected_stdout": "Введите нижнюю границу диапазона a: Введите верхнюю границу диапазона b: Введите количество простых чисел n: 11 13 17 19 23\n",
   "compare": "normalize",
   "compile_flags": ["-std=c11", "-Wall", "-Wextra", "-lm"]
 }

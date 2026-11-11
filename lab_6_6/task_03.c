@@ -20,6 +20,9 @@ static int is_palindrome(int x) {
 
 int main(void) {
     int n;
+
+    printf("Введите n (100 <= n <= 1000): ");
+    fflush(stdout);
     if (scanf("%d", &n) != 1 || n < 100 || n > 1000) {
         return 1;
     }
@@ -33,6 +36,6 @@ int main(void) {
         }
     }
 
-    printf("%.6f\n", sqrt((double)sum));
+    printf("Корень из суммы: %.6f\n", sqrt((double)sum));
     return 0;
 }

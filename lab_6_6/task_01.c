@@ -20,7 +20,22 @@ static int is_prime(int x) {
 
 int main(void) {
     int a, b, n;
-    if (scanf("%d %d %d", &a, &b, &n) != 3 || n < 1 || a > b) {
+
+    printf("Введите нижнюю границу диапазона a: ");
+    fflush(stdout);
+    if (scanf("%d", &a) != 1) {
+        return 1;
+    }
+
+    printf("Введите верхнюю границу диапазона b: ");
+    fflush(stdout);
+    if (scanf("%d", &b) != 1) {
+        return 1;
+    }
+
+    printf("Введите количество простых чисел n: ");
+    fflush(stdout);
+    if (scanf("%d", &n) != 1 || n < 1 || a > b) {
         return 1;
     }
 
@@ -35,5 +50,5 @@ int main(void) {
         }
     }
     printf("\n");
-    return found == n ? 0 : 0;
+    return 0;
 }

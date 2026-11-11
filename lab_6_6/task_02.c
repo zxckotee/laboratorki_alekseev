@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define MAX_VALUES 10000
+
 static int is_palindrome(int x) {
     if (x < 0) {
         return 0;
@@ -18,23 +20,39 @@ static int is_palindrome(int x) {
 
 int main(void) {
     int need;
+
+    printf("Введите количество палиндромов n: ");
+    fflush(stdout);
     if (scanf("%d", &need) != 1 || need < 1) {
         return 1;
     }
 
+    int values[MAX_VALUES];
+    int count = 0;
     int pal_count = 0;
-    int value;
-    int first = 1;
-    while (pal_count < need && scanf("%d", &value) == 1) {
-        if (!first) {
-            printf(" ");
+
+    while (pal_count < need) {
+        printf("Введите целое число: ");
+        fflush(stdout);
+        int value;
+        if (scanf("%d", &value) != 1) {
+            return 1;
         }
-        printf("%o", value);
-        first = 0;
+        if (count < MAX_VALUES) {
+            values[count++] = value;
+        }
         if (is_palindrome(value)) {
             ++pal_count;
         }
     }
+
+    printf("В восьмеричной системе счисления: ");
+    for (int i = 0; i < count; ++i) {
+        if (i > 0) {
+            printf(" ");
+        }
+        printf("%o", values[i]);
+    }
     printf("\n");
-    return pal_count == need ? 0 : 1;
+    return 0;
 }
