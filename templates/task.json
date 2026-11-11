@@ -1,0 +1,10 @@
+{
+  "task_number": 1,
+  "condition": "Условие задачи (вариант 19)",
+  "source": "task_01.c",
+  "stdin": "",
+  "expected_stdout": "",
+  "compare": "normalize",
+  "timeout_sec": 5,
+  "compile_flags": ["-std=c11", "-Wall", "-Wextra", "-lm"]
+}
