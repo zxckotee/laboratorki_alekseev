@@ -1,0 +1,10 @@
+{
+  "task_number": 1,
+  "condition": "Даны катеты прямоугольного треугольника A и B. Найти гипотенузу C и углы треугольника α, β, χ (в градусах).",
+  "source": "task_01.c",
+  "stdin": "3 4\n",
+  "expected_stdout": "5.000000 36.869898 53.130102 90.000000\n",
+  "compare": "normalize",
+  "timeout_sec": 5,
+  "compile_flags": ["-std=c11", "-Wall", "-Wextra", "-lm"]
+}

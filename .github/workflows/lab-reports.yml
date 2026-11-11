@@ -1,0 +1,44 @@
+name: Lab reports factory
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**/REPORT.md"
+  workflow_dispatch:
+
+concurrency:
+  group: lab-reports-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install gcc
+        run: sudo apt-get update && sudo apt-get install -y gcc
+
+      - name: Run lab factory
+        run: python3 -m scripts.lab_factory
+
+      - name: Commit generated REPORT.md files
+        run: |
+          if git diff --quiet -- lab_*/REPORT.md 2>/dev/null && \
+             [ -z "$(git ls-files --others --exclude-standard lab_*/REPORT.md)" ]; then
+            echo "No report changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lab_*/REPORT.md
+          git commit -m "chore(ci): regenerate lab reports [skip ci]"
+          git push
