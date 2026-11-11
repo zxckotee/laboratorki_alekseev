@@ -2,8 +2,8 @@
   "task_number": 5,
   "condition": "Напишите программу для вычисления y по формуле: y = −x²/(1·2) + x³/(2·4) − x⁴/(3·8) + … + (−1)^n · x^(n+1)/(n·2^n). Натуральное n и x (|x| < 1) вводятся с клавиатуры.",
   "source": "task_05.c",
-  "stdin": "4 0.5\n",
-  "expected_stdout": "-0.111491\n",
+  "stdin": "4\n0.5\n",
+  "expected_stdout": "Введите натуральное n: Введите x (|x| < 1): y = -0.111491\n",
   "compare": "normalize",
   "compile_flags": ["-std=c11", "-Wall", "-Wextra", "-lm"]
 }

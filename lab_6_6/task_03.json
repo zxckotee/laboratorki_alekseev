@@ -3,7 +3,7 @@
   "condition": "Найти корень квадратный из суммы первых n (100 ≤ n ≤ 1000) чисел-палиндромов.",
   "source": "task_03.c",
   "stdin": "100\n",
-  "expected_stdout": "205.737697\n",
+  "expected_stdout": "Введите n (100 <= n <= 1000): Корень из суммы: 205.737697\n",
   "compare": "normalize",
   "compile_flags": ["-std=c11", "-Wall", "-Wextra", "-lm"]
 }
