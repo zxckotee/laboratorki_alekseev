@@ -1,10 +1,39 @@
 #include <stdio.h>
+#include <stdlib.h>
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
+typedef struct Node {
+    int value;
+    struct Node *next;
+} Node;
 
-#define MAX_VALUES 10000
+static void list_push_back(Node **head, int v) {
+    Node *n = malloc(sizeof(Node));
+    if (!n) {
+        return;
+    }
+    n->value = v;
+    n->next = NULL;
+    if (!*head) {
+        *head = n;
+        return;
+    }
+    Node *p = *head;
+    while (p->next) {
+        p = p->next;
+    }
+    p->next = n;
+}
+
+static void list_clear(Node **head) {
+    while (*head) {
+        Node *n = (*head)->next;
+        free(*head);
+        *head = n;
+    }
+}
 
 static int is_palindrome(int x) {
     if (x < 0) {
@@ -35,8 +64,7 @@ int main(void) {
         return 1;
     }
 
-    int values[MAX_VALUES];
-    int count = 0;
+    Node *head = NULL;
     int pal_count = 0;
 
     while (pal_count < need) {
@@ -44,23 +72,26 @@ int main(void) {
         fflush(stdout);
         int value;
         if (scanf("%d", &value) != 1) {
+            list_clear(&head);
             return 1;
         }
-        if (count < MAX_VALUES) {
-            values[count++] = value;
-        }
+        list_push_back(&head, value);
         if (is_palindrome(value)) {
             ++pal_count;
         }
     }
 
     printf("В восьмеричной системе счисления: ");
-    for (int i = 0; i < count; ++i) {
-        if (i > 0) {
+    int first = 1;
+    for (Node *p = head; p; p = p->next) {
+        if (!first) {
             printf(" ");
         }
-        printf("%o", values[i]);
+        printf("%o", p->value);
+        first = 0;
     }
     printf("\n");
+
+    list_clear(&head);
     return 0;
 }
