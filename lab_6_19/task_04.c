@@ -1,5 +1,9 @@
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static double series_s(double x, int n) {
     double s = -1.0;
@@ -19,6 +23,10 @@ static double y_func(double x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     double h;
     printf("Введите количество слагаемых n: ");

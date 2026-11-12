@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int digit_sum(int x) {
     if (x < 0) {
@@ -55,6 +59,10 @@ static int cmp_item(const void *a, const void *b) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите размер массива (n): ");
     fflush(stdout);

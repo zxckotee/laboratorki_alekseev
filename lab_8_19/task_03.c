@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int is_prime(int x) {
     if (x < 2) return 0;
@@ -23,6 +27,10 @@ static int digits_strict_decrease(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите размер массива (n): ");
     fflush(stdout);

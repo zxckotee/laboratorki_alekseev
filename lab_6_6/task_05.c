@@ -1,5 +1,9 @@
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static double compute_y(double x, int n) {
     double y = 0.0;
@@ -13,6 +17,10 @@ static double compute_y(double x, int n) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     double x;
 

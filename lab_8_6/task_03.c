@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int is_odd(int x) {
     return x % 2 != 0;
@@ -18,6 +22,10 @@ static int group_strict_decrease(int *a, int len) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите размер массива (n): ");
     fflush(stdout);
