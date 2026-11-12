@@ -90,6 +90,10 @@
 ```c
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int solve_quadratic(double a, double b, double c, double *r1, double *r2) {
     if (fabs(a) < 1e-12) {
@@ -110,6 +114,10 @@ static int solve_quadratic(double a, double b, double c, double *r1, double *r2)
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите количество парабол N: ");
     fflush(stdout);

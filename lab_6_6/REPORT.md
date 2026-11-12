@@ -89,6 +89,10 @@
 
 ```c
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int is_prime(int x) {
     if (x < 2) {
@@ -109,6 +113,10 @@ static int is_prime(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int a, b, n;
 
     printf("Введите нижнюю границу диапазона a: ");
@@ -170,6 +178,10 @@ int main(void) {
 
 ```c
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 #define MAX_VALUES 10000
 
@@ -190,6 +202,10 @@ static int is_palindrome(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int need;
 
     printf("Введите количество палиндромов n: ");
@@ -257,6 +273,10 @@ int main(void) {
 ```c
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int is_palindrome(int x) {
     if (x < 0) {
@@ -276,6 +296,10 @@ static int is_palindrome(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
 
     printf("Введите n (100 <= n <= 1000): ");
@@ -323,6 +347,10 @@ Y(x) — гиперболический синус `sinh(x)`. Члены ряд�
 ```c
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static double sinh_ref(double x) {
     return (exp(x) - exp(-x)) / 2.0;
@@ -343,6 +371,10 @@ static double series_sinh(double x, int n) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     double h;
 
@@ -403,6 +435,10 @@ int main(void) {
 ```c
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static double compute_y(double x, int n) {
     double y = 0.0;
@@ -416,6 +452,10 @@ static double compute_y(double x, int n) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     double x;
 

@@ -90,8 +90,16 @@
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n, m;
     printf("Введите размер массива X (n): ");
     fflush(stdout);
@@ -254,6 +262,10 @@ Y[1]: Y[2]: Массив Z после удаления максимума (5 э�
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int has_digit_zero(int x) {
     if (x == 0) {
@@ -290,6 +302,10 @@ static int cmp_int(const void *a, const void *b) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n, k;
     printf("Введите размер массива X (n): ");
     fflush(stdout);
@@ -431,6 +447,10 @@ Z (сорт.): 4 6 9 12 21
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int is_odd(int x) {
     return x % 2 != 0;
@@ -449,6 +469,10 @@ static int group_strict_decrease(int *a, int len) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите размер массива (n): ");
     fflush(stdout);
@@ -553,6 +577,10 @@ A[1]: A[2]: A[3]: A[4]: Массив после удаления группы (1
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int digit_sum(int x) {
     if (x < 0) {
@@ -608,6 +636,10 @@ static int cmp_item(const void *a, const void *b) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите размер массива (n): ");
     fflush(stdout);

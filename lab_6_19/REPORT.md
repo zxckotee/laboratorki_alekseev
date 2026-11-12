@@ -89,6 +89,10 @@
 
 ```c
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int is_perfect(int x) {
     if (x < 2) {
@@ -107,6 +111,10 @@ static int is_perfect(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите количество совершенных чисел n: ");
     fflush(stdout);
@@ -157,6 +165,10 @@ int main(void) {
 
 ```c
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int sum_proper_divisors(int x) {
     if (x < 2) {
@@ -179,6 +191,10 @@ static int is_abundant(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int need;
     printf("Введите номер избыточного числа n: ");
     fflush(stdout);
@@ -249,6 +265,10 @@ int main(void) {
 ```c
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int digit_count(int x) {
     int n = 0;
@@ -278,6 +298,10 @@ static int is_armstrong(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите n: ");
     fflush(stdout);
@@ -324,6 +348,10 @@ int main(void) {
 ```c
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static double series_s(double x, int n) {
     double s = -1.0;
@@ -343,6 +371,10 @@ static double y_func(double x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     double h;
     printf("Введите количество слагаемых n: ");
@@ -401,6 +433,10 @@ int main(void) {
 ```c
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static double compute_y(double x, int n) {
     double y = 0.0;
@@ -412,6 +448,10 @@ static double compute_y(double x, int n) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     double x;
     printf("Введите натуральное n: ");
