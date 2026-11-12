@@ -1,0 +1,14 @@
+{
+  "task_number": 3,
+  "condition": "Найти произведение первых n чисел Армстронга (программа должна работать при n=14).",
+  "source": "task_03.c",
+  "stdin": "4\n",
+  "compile_flags": [
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-lm"
+  ],
+  "expected_stdout": "Введите n: Произведение: 24.000000\n",
+  "compare": "normalize"
+}
