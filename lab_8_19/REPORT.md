@@ -91,8 +91,16 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n, k;
     printf("Введите размер массива X (n): ");
     fflush(stdout);
@@ -212,6 +220,10 @@ X после удаления элемента, ближайшего к сред
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int from_base_representation(int code, int base) {
     int sign = 1;
@@ -241,6 +253,10 @@ static int cmp_desc(const void *a, const void *b) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n, k;
     printf("Введите размер массива X (n): ");
     fflush(stdout);
@@ -329,6 +345,10 @@ Y[1]: Y[2]: Z (десятичный, 4 элементов): 13 5 11 10
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int is_prime(int x) {
     if (x < 2) return 0;
@@ -352,6 +372,10 @@ static int digits_strict_decrease(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите размер массива (n): ");
     fflush(stdout);
@@ -435,6 +459,10 @@ A[1]: A[2]: A[3]: A[4]: Группа не найдена: 13 31 2 5
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int digit_sum(int x) {
     if (x < 0) x = -x;
@@ -460,6 +488,10 @@ static int cmp_item_desc(const void *a, const void *b) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите размер массива (n): ");
     fflush(stdout);
