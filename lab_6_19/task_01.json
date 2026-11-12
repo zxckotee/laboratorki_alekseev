@@ -1,0 +1,14 @@
+{
+  "task_number": 1,
+  "condition": "Вывести на экран первые n совершенных чисел, их сумму и среднее значение.",
+  "source": "task_01.c",
+  "stdin": "2\n",
+  "compile_flags": [
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-lm"
+  ],
+  "expected_stdout": "Введите количество совершенных чисел n: 6\n28\nСумма: 34\nСреднее: 17.000000\n",
+  "compare": "normalize"
+}

@@ -1,0 +1,14 @@
+{
+  "task_number": 5,
+  "condition": "y = −x²/3 + x⁴/5 + … + (−1)^n · x^(2n)/(2n+1); n и x с клавиатуры.",
+  "source": "task_05.c",
+  "stdin": "3\n0.5\n",
+  "compile_flags": [
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-lm"
+  ],
+  "expected_stdout": "Введите натуральное n: Введите x: y = -0.073065\n",
+  "compare": "normalize"
+}
