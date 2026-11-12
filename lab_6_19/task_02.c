@@ -1,4 +1,8 @@
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int sum_proper_divisors(int x) {
     if (x < 2) {
@@ -21,6 +25,10 @@ static int is_abundant(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int need;
     printf("Введите номер избыточного числа n: ");
     fflush(stdout);

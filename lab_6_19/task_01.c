@@ -1,4 +1,8 @@
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int is_perfect(int x) {
     if (x < 2) {
@@ -17,6 +21,10 @@ static int is_perfect(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите количество совершенных чисел n: ");
     fflush(stdout);

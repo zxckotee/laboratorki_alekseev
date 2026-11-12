@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 typedef struct Node {
     int value;
@@ -102,6 +106,10 @@ static int group_fits(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int value;
 
     printf("Вводите целые числа (0 — конец последовательности):\n");

@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int has_digit_zero(int x) {
     if (x == 0) {
@@ -36,6 +40,10 @@ static int cmp_int(const void *a, const void *b) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n, k;
     printf("Введите размер массива X (n): ");
     fflush(stdout);

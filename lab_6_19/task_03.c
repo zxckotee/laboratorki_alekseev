@@ -1,5 +1,9 @@
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int digit_count(int x) {
     int n = 0;
@@ -29,6 +33,10 @@ static int is_armstrong(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     printf("Введите n: ");
     fflush(stdout);

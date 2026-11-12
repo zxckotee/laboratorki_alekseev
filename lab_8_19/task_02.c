@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int from_base_representation(int code, int base) {
     int sign = 1;
@@ -29,6 +33,10 @@ static int cmp_desc(const void *a, const void *b) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n, k;
     printf("Введите размер массива X (n): ");
     fflush(stdout);

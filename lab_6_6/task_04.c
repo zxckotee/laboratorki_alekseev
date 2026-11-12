@@ -1,5 +1,9 @@
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static double sinh_ref(double x) {
     return (exp(x) - exp(-x)) / 2.0;
@@ -20,6 +24,10 @@ static double series_sinh(double x, int n) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
     double h;
 

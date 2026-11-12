@@ -1,5 +1,9 @@
 #include <math.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 static int is_palindrome(int x) {
     if (x < 0) {
@@ -19,6 +23,10 @@ static int is_palindrome(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int n;
 
     printf("Введите n (100 <= n <= 1000): ");

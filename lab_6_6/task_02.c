@@ -1,4 +1,8 @@
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 #define MAX_VALUES 10000
 
@@ -19,6 +23,10 @@ static int is_palindrome(int x) {
 }
 
 int main(void) {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     int need;
 
     printf("Введите количество палиндромов n: ");
