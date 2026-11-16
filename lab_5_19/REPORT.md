@@ -91,70 +91,11 @@
 
 ```c
 #include <stdio.h>
-#include <stdlib.h>
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
-
-typedef struct Node {
-    int value;
-    struct Node *next;
-} Node;
-
-static void list_clear(Node **head) {
-    while (*head) {
-        Node *n = (*head)->next;
-        free(*head);
-        *head = n;
-    }
-}
-
-static void list_push_back(Node **head, int v) {
-    Node *n = malloc(sizeof(Node));
-    if (!n) {
-        return;
-    }
-    n->value = v;
-    n->next = NULL;
-    if (!*head) {
-        *head = n;
-        return;
-    }
-    Node *p = *head;
-    while (p->next) {
-        p = p->next;
-    }
-    p->next = n;
-}
-
-static void list_copy(Node **dest, Node *src) {
-    list_clear(dest);
-    for (Node *p = src; p; p = p->next) {
-        list_push_back(dest, p->value);
-    }
-}
-
-static int list_len(Node *head) {
-    int n = 0;
-    for (Node *p = head; p; p = p->next) {
-        ++n;
-    }
-    return n;
-}
-
-static void list_print(Node *head) {
-    int first = 1;
-    for (Node *p = head; p; p = p->next) {
-        if (!first) {
-            printf(" ");
-        }
-        printf("%d", p->value);
-        first = 0;
-    }
-}
-
-static int is_prime(int x) {
+int prostoe(int x) {
     if (x < 2) {
         return 0;
     }
@@ -172,29 +113,29 @@ static int is_prime(int x) {
     return 1;
 }
 
-static int digits_strictly_decrease(int x) {
+int cifry_ubyvayut(int x) {
     if (x < 0) {
         return 0;
     }
-    int pow10 = 1;
-    while (x >= pow10 * 10) {
-        pow10 *= 10;
+    int stepen = 1;
+    while (x >= stepen * 10) {
+        stepen *= 10;
     }
-    int prev = -1;
-    while (pow10 > 0) {
-        int d = x / pow10;
-        d %= 10;
-        if (prev >= 0 && d <= prev) {
+    int pred = -1;
+    while (stepen > 0) {
+        int c = x / stepen;
+        c %= 10;
+        if (pred >= 0 && c >= pred) {
             return 0;
         }
-        prev = d;
-        pow10 /= 10;
+        pred = c;
+        stepen /= 10;
     }
     return 1;
 }
 
-static int group_fits(int x) {
-    return is_prime(x) && digits_strictly_decrease(x);
+int podhodit(int x) {
+    return prostoe(x) && cifry_ubyvayut(x);
 }
 
 int main(void) {
@@ -202,56 +143,59 @@ int main(void) {
     SetConsoleOutputCP(65001);
 #endif
 
-    int value;
+    int x;
+    int tek[500];
+    int tek_dlina = 0;
+    int luch[500];
+    int luch_dlina = 0;
 
     printf("Вводите целые числа (0 — конец последовательности):\n");
-
-    Node *current = NULL;
-    Node *best = NULL;
-    int best_len = 0;
 
     for (;;) {
         printf("Введите число: ");
         fflush(stdout);
-        if (scanf("%d", &value) != 1) {
-            list_clear(&current);
-            list_clear(&best);
+        if (scanf("%d", &x) != 1) {
             return 1;
         }
-        if (value == 0) {
-            int cur_len = list_len(current);
-            if (cur_len > 0 && (best_len == 0 || cur_len < best_len)) {
-                best_len = cur_len;
-                list_copy(&best, current);
+        if (x == 0) {
+            if (tek_dlina > 0 && (luch_dlina == 0 || tek_dlina < luch_dlina)) {
+                luch_dlina = tek_dlina;
+                for (int i = 0; i < tek_dlina; ++i) {
+                    luch[i] = tek[i];
+                }
             }
             break;
         }
 
-        if (group_fits(value)) {
-            list_push_back(&current, value);
-        } else {
-            int cur_len = list_len(current);
-            if (cur_len > 0 && (best_len == 0 || cur_len < best_len)) {
-                best_len = cur_len;
-                list_copy(&best, current);
+        if (podhodit(x)) {
+            if (tek_dlina < 500) {
+                tek[tek_dlina++] = x;
             }
-            list_clear(&current);
+        } else {
+            if (tek_dlina > 0 && (luch_dlina == 0 || tek_dlina < luch_dlina)) {
+                luch_dlina = tek_dlina;
+                for (int i = 0; i < tek_dlina; ++i) {
+                    luch[i] = tek[i];
+                }
+            }
+            tek_dlina = 0;
         }
     }
 
-    list_clear(&current);
-
-    if (best_len == 0) {
+    if (luch_dlina == 0) {
         printf("Подходящая группа не найдена.\n");
-        list_clear(&best);
         return 0;
     }
 
-    printf("Минимальная длина группы: %d\n", best_len);
+    printf("Минимальная длина группы: %d\n", luch_dlina);
     printf("Группа: ");
-    list_print(best);
+    for (int i = 0; i < luch_dlina; ++i) {
+        if (i > 0) {
+            printf(" ");
+        }
+        printf("%d", luch[i]);
+    }
     printf("\n");
-    list_clear(&best);
     return 0;
 }
 ```
@@ -259,9 +203,7 @@ int main(void) {
 **Ввод:**
 
 ```
-73
-31
-53
+953
 0
 ```
 
@@ -269,5 +211,6 @@ int main(void) {
 
 ```
 Вводите целые числа (0 — конец последовательности):
-Введите число: Введите число: Введите число: Введите число: Подходящая группа не найдена.
+Введите число: Введите число: Минимальная длина группы: 1
+Группа: 953
 ```
