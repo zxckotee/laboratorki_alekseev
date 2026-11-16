@@ -1,0 +1,10 @@
+{
+  "task_number": 1,
+  "condition": "Вычислить значение функции варианта 19 через отдельную функцию f(x): ln|cos(x − 2π)| − 9/√(1 − e^x)/(sin x − 3 − ⁵√x) для введённого x.",
+  "source": "task_01.c",
+  "stdin": "0.5\n",
+  "expected_stdout": "Введите x: f(x) = 3.164524\n",
+  "compare": "normalize",
+  "timeout_sec": 5,
+  "compile_flags": ["-std=c11", "-Wall", "-Wextra", "-lm"]
+}
