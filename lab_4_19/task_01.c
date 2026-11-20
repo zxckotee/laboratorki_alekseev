@@ -1,17 +1,33 @@
-#include <math.h>
 #include <stdio.h>
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
-double znachenie_f(double x) {
-    double nom = log(fabs(cos(x - 2.0 * acos(-1.0))));
-    double znam = sin(x) - 3.0 - pow(x, 0.2);
-    if (znam == 0.0) {
-        return 0.0 / 0.0;
+double srednee_cifr(int chislo) {
+    int modul;
+    int summa;
+    int kolichestvo;
+    int ostatok;
+
+    if (chislo == 0) {
+        return 0.0;
     }
-    double drob = 9.0 / sqrt(fabs(1.0 - exp(x))) / znam;
-    return nom - drob;
+
+    modul = chislo;
+    if (modul < 0) {
+        modul = -modul;
+    }
+
+    summa = 0;
+    kolichestvo = 0;
+    while (modul > 0) {
+        ostatok = modul % 10;
+        summa = summa + ostatok;
+        kolichestvo = kolichestvo + 1;
+        modul = modul / 10;
+    }
+
+    return (double)summa / (double)kolichestvo;
 }
 
 int main(void) {
@@ -19,20 +35,24 @@ int main(void) {
     SetConsoleOutputCP(65001);
 #endif
 
-    double x;
+    int n;
+    int i;
+    int element;
 
-    printf("Введите x: ");
+    printf("Введите N: ");
     fflush(stdout);
-    if (scanf("%lf", &x) != 1) {
+    if (scanf("%d", &n) != 1 || n < 1) {
         return 1;
     }
 
-    double y = znachenie_f(x);
-    if (y != y) {
-        printf("Значение функции не определено при данном x.\n");
-        return 0;
+    for (i = 0; i < n; ++i) {
+        printf("Введите элемент последовательности: ");
+        fflush(stdout);
+        if (scanf("%d", &element) != 1) {
+            return 1;
+        }
+        printf("Среднее цифр: %.6f\n", srednee_cifr(element));
     }
 
-    printf("f(x) = %.6f\n", y);
     return 0;
 }
