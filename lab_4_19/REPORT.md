@@ -171,7 +171,7 @@ int main(void) {
 **Условие.** Заданы A и B в системах счисления с основаниями p=2 и q=4. Вычислить C = B³ − 2·B + A и вывести C в десятичной системе и в системе с основанием r=3. Использовать функции.
 
 
-Числа A и B читаются как строки в двоичной и четверичной системах. Функция `chislo_iz_sistemy` переводит запись в десятичное значение, `vychislit_C` считает B³ − 2B + A. Результат печатается в десятичном виде и функцией `vyvesti_v_sisteme` — в троичной системе (r = 3).
+Числа A и B набираются посимвольно в `prochitat_chislo` без массивов: каждая цифра сразу входит в ответ в соответствующей системе. `vychislit_C` считает B³ − 2B + A. Для троичного вывода `vyvesti_v_sisteme` вызывает себя рекурсивно, печатая цифры слева направо.
 
 **Код (`task_02.c`):**
 
@@ -181,26 +181,50 @@ int main(void) {
 #include <windows.h>
 #endif
 
-long long chislo_iz_sistemy(const char *zapis, int osnovanie) {
-    int i;
-    long long znachenie;
+int simvol_v_cifru(char simvol, int osnovanie) {
     int cifra;
 
+    if (simvol >= '0' && simvol <= '9') {
+        cifra = simvol - '0';
+    } else if (simvol >= 'A' && simvol <= 'Z') {
+        cifra = simvol - 'A' + 10;
+    } else if (simvol >= 'a' && simvol <= 'z') {
+        cifra = simvol - 'a' + 10;
+    } else {
+        return -1;
+    }
+
+    if (cifra < 0 || cifra >= osnovanie) {
+        return -1;
+    }
+    return cifra;
+}
+
+long long prochitat_chislo(int osnovanie) {
+    long long znachenie;
+    char simvol;
+    int cifra;
+    int est_cifra;
+
     znachenie = 0;
-    for (i = 0; zapis[i] != '\0'; ++i) {
-        if (zapis[i] >= '0' && zapis[i] <= '9') {
-            cifra = zapis[i] - '0';
-        } else if (zapis[i] >= 'A' && zapis[i] <= 'Z') {
-            cifra = zapis[i] - 'A' + 10;
-        } else if (zapis[i] >= 'a' && zapis[i] <= 'z') {
-            cifra = zapis[i] - 'a' + 10;
-        } else {
-            return -1;
+    est_cifra = 0;
+    while (scanf("%c", &simvol) == 1) {
+        if (simvol == '\n' || simvol == ' ' || simvol == '\t' || simvol == '\r') {
+            if (est_cifra) {
+                break;
+            }
+            continue;
         }
-        if (cifra < 0 || cifra >= osnovanie) {
+        cifra = simvol_v_cifru(simvol, osnovanie);
+        if (cifra < 0) {
             return -1;
         }
         znachenie = znachenie * osnovanie + cifra;
+        est_cifra = 1;
+    }
+
+    if (!est_cifra) {
+        return -1;
     }
     return znachenie;
 }
@@ -209,32 +233,20 @@ long long vychislit_C(long long A, long long B) {
     return B * B * B - 2 * B + A;
 }
 
-void vyvesti_v_sisteme(long long chislo, int osnovanie) {
-    char cifry[70];
-    int kolichestvo;
-    long long ost;
+void vyvesti_cifru(long long ost) {
+    if (ost < 10) {
+        printf("%lld", ost);
+    } else {
+        printf("%c", (char)('A' + (ost - 10)));
+    }
+}
 
+void vyvesti_v_sisteme(long long chislo, int osnovanie) {
     if (chislo == 0) {
-        printf("0");
         return;
     }
-
-    kolichestvo = 0;
-    while (chislo > 0) {
-        ost = chislo % osnovanie;
-        if (ost < 10) {
-            cifry[kolichestvo] = (char)('0' + ost);
-        } else {
-            cifry[kolichestvo] = (char)('A' + (ost - 10));
-        }
-        kolichestvo = kolichestvo + 1;
-        chislo = chislo / osnovanie;
-    }
-
-    while (kolichestvo > 0) {
-        kolichestvo = kolichestvo - 1;
-        printf("%c", cifry[kolichestvo]);
-    }
+    vyvesti_v_sisteme(chislo / osnovanie, osnovanie);
+    vyvesti_cifru(chislo % osnovanie);
 }
 
 int main(void) {
@@ -242,8 +254,6 @@ int main(void) {
     SetConsoleOutputCP(65001);
 #endif
 
-    char zapis_A[70];
-    char zapis_B[70];
     long long A;
     long long B;
     long long C;
@@ -257,19 +267,16 @@ int main(void) {
 
     printf("Введите число A (основание %d): ", p);
     fflush(stdout);
-    if (scanf("%69s", zapis_A) != 1) {
+    A = prochitat_chislo(p);
+    if (A < 0) {
+        printf("Неверная запись числа.\n");
         return 1;
     }
 
     printf("Введите число B (основание %d): ", q);
     fflush(stdout);
-    if (scanf("%69s", zapis_B) != 1) {
-        return 1;
-    }
-
-    A = chislo_iz_sistemy(zapis_A, p);
-    B = chislo_iz_sistemy(zapis_B, q);
-    if (A < 0 || B < 0) {
+    B = prochitat_chislo(q);
+    if (B < 0) {
         printf("Неверная запись числа.\n");
         return 1;
     }
@@ -278,7 +285,11 @@ int main(void) {
 
     printf("C в десятичной системе: %lld\n", C);
     printf("C в системе с основанием %d: ", r);
-    vyvesti_v_sisteme(C, r);
+    if (C == 0) {
+        printf("0");
+    } else {
+        vyvesti_v_sisteme(C, r);
+    }
     printf("\n");
 
     return 0;
