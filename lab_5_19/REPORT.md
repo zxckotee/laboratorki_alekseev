@@ -83,9 +83,7 @@
 **Условие.** Вводится последовательность целых чисел (0 — конец), найти группу минимальной длины из простых чисел, цифры которых образуют убывающую последовательность.
 
 
-Последовательность читается до нуля. Группа — подряд идущие простые числа, цифры которых строго убывают слева направо. Среди таких групп выбирается группа минимальной длины.
-
-Подробный разбор синтаксиса и логики (список `Node`, указатели): см. `task_01_commented.c`.
+Числа сначала записываются во временный файл (`tmpfile`), чтобы можно было несколько раз пройти последовательность без массива. Группа — подряд идущие простые числа со строго убывающими цифрами. Функция `naiti_min_dlina` находит минимальную длину, `naiti_nomer_gruppy` — номер первой такой группы, `vyvesti_gruppu` печатает её элементы.
 
 **Код (`task_01.c`):**
 
@@ -96,6 +94,8 @@
 #endif
 
 int prostoe(int x) {
+    int d;
+
     if (x < 2) {
         return 0;
     }
@@ -105,7 +105,7 @@ int prostoe(int x) {
     if (x % 2 == 0) {
         return 0;
     }
-    for (int d = 3; d * d <= x; d += 2) {
+    for (d = 3; d * d <= x; d += 2) {
         if (x % d == 0) {
             return 0;
         }
@@ -114,16 +114,25 @@ int prostoe(int x) {
 }
 
 int cifry_ubyvayut(int x) {
+    int stepen;
+    int pred;
+    int c;
+
     if (x < 0) {
         return 0;
     }
-    int stepen = 1;
+    if (x == 0) {
+        return 0;
+    }
+
+    stepen = 1;
     while (x >= stepen * 10) {
         stepen *= 10;
     }
-    int pred = -1;
+
+    pred = -1;
     while (stepen > 0) {
-        int c = x / stepen;
+        c = x / stepen;
         c %= 10;
         if (pred >= 0 && c >= pred) {
             return 0;
@@ -138,16 +147,119 @@ int podhodit(int x) {
     return prostoe(x) && cifry_ubyvayut(x);
 }
 
+int naiti_min_dlina(FILE *f) {
+    int x;
+    int dlina;
+    int min_dlina;
+
+    min_dlina = 0;
+    dlina = 0;
+
+    rewind(f);
+    while (fscanf(f, "%d", &x) == 1) {
+        if (podhodit(x)) {
+            dlina++;
+        } else if (dlina > 0) {
+            if (min_dlina == 0 || dlina < min_dlina) {
+                min_dlina = dlina;
+            }
+            dlina = 0;
+        }
+    }
+    if (dlina > 0) {
+        if (min_dlina == 0 || dlina < min_dlina) {
+            min_dlina = dlina;
+        }
+    }
+
+    return min_dlina;
+}
+
+int naiti_nomer_gruppy(FILE *f, int nuzh_dlina) {
+    int x;
+    int dlina;
+    int nomer;
+
+    nomer = 0;
+    dlina = 0;
+
+    rewind(f);
+    while (fscanf(f, "%d", &x) == 1) {
+        if (podhodit(x)) {
+            dlina++;
+        } else if (dlina > 0) {
+            nomer++;
+            if (dlina == nuzh_dlina) {
+                return nomer;
+            }
+            dlina = 0;
+        }
+    }
+    if (dlina > 0) {
+        nomer++;
+        if (dlina == nuzh_dlina) {
+            return nomer;
+        }
+    }
+
+    return 0;
+}
+
+void vyvesti_gruppu(FILE *f, int nomer_gruppy) {
+    int x;
+    int zakoncheno;
+    int v_gruppe;
+    int pechat;
+    int pervaya;
+
+    zakoncheno = 0;
+    v_gruppe = 0;
+    pechat = 0;
+    pervaya = 1;
+
+    rewind(f);
+    while (fscanf(f, "%d", &x) == 1) {
+        if (podhodit(x)) {
+            if (!v_gruppe) {
+                v_gruppe = 1;
+                pechat = (zakoncheno + 1 == nomer_gruppy);
+            }
+            if (pechat) {
+                if (!pervaya) {
+                    printf(" ");
+                }
+                printf("%d", x);
+                pervaya = 0;
+            }
+        } else if (v_gruppe) {
+            zakoncheno++;
+            v_gruppe = 0;
+            pechat = 0;
+            if (zakoncheno == nomer_gruppy) {
+                return;
+            }
+        }
+    }
+    if (v_gruppe) {
+        zakoncheno++;
+        (void)zakoncheno;
+    }
+}
+
 int main(void) {
+    FILE *f;
+    int x;
+    int min_dlina;
+    int nomer;
+
 #ifdef _WIN32
     SetConsoleOutputCP(65001);
 #endif
 
-    int x;
-    int tek[500];
-    int tek_dlina = 0;
-    int luch[500];
-    int luch_dlina = 0;
+    f = tmpfile();
+    if (f == NULL) {
+        return 1;
+    }
 
     printf("Вводите целые числа (0 — конец последовательности):\n");
 
@@ -155,47 +267,35 @@ int main(void) {
         printf("Введите число: ");
         fflush(stdout);
         if (scanf("%d", &x) != 1) {
+            fclose(f);
             return 1;
         }
         if (x == 0) {
-            if (tek_dlina > 0 && (luch_dlina == 0 || tek_dlina < luch_dlina)) {
-                luch_dlina = tek_dlina;
-                for (int i = 0; i < tek_dlina; ++i) {
-                    luch[i] = tek[i];
-                }
-            }
             break;
         }
-
-        if (podhodit(x)) {
-            if (tek_dlina < 500) {
-                tek[tek_dlina++] = x;
-            }
-        } else {
-            if (tek_dlina > 0 && (luch_dlina == 0 || tek_dlina < luch_dlina)) {
-                luch_dlina = tek_dlina;
-                for (int i = 0; i < tek_dlina; ++i) {
-                    luch[i] = tek[i];
-                }
-            }
-            tek_dlina = 0;
-        }
+        fprintf(f, "%d ", x);
     }
 
-    if (luch_dlina == 0) {
+    min_dlina = naiti_min_dlina(f);
+    if (min_dlina == 0) {
         printf("Подходящая группа не найдена.\n");
+        fclose(f);
         return 0;
     }
 
-    printf("Минимальная длина группы: %d\n", luch_dlina);
-    printf("Группа: ");
-    for (int i = 0; i < luch_dlina; ++i) {
-        if (i > 0) {
-            printf(" ");
-        }
-        printf("%d", luch[i]);
+    nomer = naiti_nomer_gruppy(f, min_dlina);
+    if (nomer == 0) {
+        printf("Подходящая группа не найдена.\n");
+        fclose(f);
+        return 0;
     }
+
+    printf("Минимальная длина группы: %d\n", min_dlina);
+    printf("Группа: ");
+    vyvesti_gruppu(f, nomer);
     printf("\n");
+
+    fclose(f);
     return 0;
 }
 ```
